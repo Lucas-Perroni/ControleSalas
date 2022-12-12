@@ -12,10 +12,10 @@ namespace ControleSalas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Aluno : ControllerBase
+    public class Datas : ControllerBase
     {
         [HttpGet]
-        public string Lista_Alunos(string p_nome_aluno)
+        public string Lista_Dias(string p_dia)
 
         {
             string Chaveconexao = "Data Source=10.39.45.44;Initial Catalog=ControleSalas;User ID=Turma2022;Password=Turma2022@2022";
@@ -25,7 +25,7 @@ namespace ControleSalas.Controllers
             SqlConnection Conexao = new SqlConnection(Chaveconexao);
             Conexao.Open();
 
-            string wQuery = $"select * from Aluno where Nome like '%{p_nome_aluno}%' ";
+            string wQuery = $"select * from Datas where dia like '%{p_dia}%' ";
             SqlDataAdapter adapter = new SqlDataAdapter(wQuery, Conexao);
             adapter.Fill(resultadoCEP2);
 
@@ -34,7 +34,7 @@ namespace ControleSalas.Controllers
         }
 
         [HttpPost]
-        public string Atualizar_Alunos(int Id, string Nome, string Turma, string Periodo, string Sala)
+        public string Atualizar_Datas(int Id, int Dia, int QuantidadeSalaOcupado, int QuantidadeSalaLivre)
         {
 
             string ChaveConexao = "Data Source=10.39.45.44; Initial Catalog=ControleSalas; User ID=Turma2022;Password=Turma2022@2022";
@@ -43,11 +43,10 @@ namespace ControleSalas.Controllers
             {
                 SqlConnection Conexao = new SqlConnection(ChaveConexao); Conexao.Open();
 
-                string oQueryUpdate = $" UPDATE  Alunos  " +
-                                        $" SET  Nome =  '{Nome}'" +
-                                        $",Turma =     '{Turma}'  " +
-                                        $",Periodo =  '{Periodo}' " +
-                                        $",Sala =   '{Sala}' " +
+                string oQueryUpdate = $" UPDATE  Datas  " +
+                                        $" SET  Dia =  '{Dia}'" +
+                                        $",QuantidadeSalaOcupado =     '{QuantidadeSalaOcupado}'  " +
+                                        $",QuantidadeSalaLivre =  '{QuantidadeSalaLivre}' " +                                       
                                         $"WHERE Id  = {Id}";
 
                 SqlCommand Cmd = new SqlCommand(oQueryUpdate, Conexao); Cmd.ExecuteNonQuery(); Conexao.Close();
@@ -61,7 +60,7 @@ namespace ControleSalas.Controllers
         }
 
         [HttpPut]
-        public string Inserir_Alunos(string Nome, string Turma, string Periodo, string Sala)
+        public string Inserir_Datas(int Dia, int QuantidadeSalaOcupado, int QuantidadeSalaLivre)
         {
             string Chaveconexao = "Data Source=10.39.45.44;Initial Catalog=ControleSalas;User ID=Turma2022;Password=Turma2022@2022";
             DataSet resultadoPost = new DataSet();
@@ -69,11 +68,10 @@ namespace ControleSalas.Controllers
             SqlConnection Conexao = new SqlConnection(Chaveconexao);
             Conexao.Open();
 
-            string wQuery = ($"insert into Alunos (Status, Nome, Turma, Periodo, Sala)" +                            
-                            $"'{Nome}'" +
-                            $"'{Turma}'" +
-                            $"'{Periodo}'" +
-                            $"'{Sala}'");
+            string wQuery = ($"insert into Datas (Dia, QuantidadeSalaOcupado, Turma, Periodo, Sala)" +
+                            $" Values('{Dia}'" +
+                            $"'{QuantidadeSalaOcupado}'" +
+                            $"'{QuantidadeSalaLivre}'");
 
             SqlDataAdapter adapter = new SqlDataAdapter(wQuery, Conexao);
             adapter.Fill(resultadoPost);
@@ -84,7 +82,7 @@ namespace ControleSalas.Controllers
         }
 
         [HttpDelete]
-        public string Deletar_Alunos(int Id)
+        public string Deletar_Datas(int Id)
         {
             string Chaveconexao = "Data Source=10.39.45.44;Initial Catalog=ControleSalas;User ID=Turma2022;Password=Turma2022@2022";
             DataSet resultadoPost = new DataSet();
@@ -92,7 +90,7 @@ namespace ControleSalas.Controllers
             SqlConnection Conexao = new SqlConnection(Chaveconexao);
             Conexao.Open();
 
-            string wQuery = ($"delete from Alunos where id = '{Id}'");
+            string wQuery = ($"delete from Datas where id = '{Id}'");
 
             SqlDataAdapter adapter = new SqlDataAdapter(wQuery, Conexao);
             adapter.Fill(resultadoPost);
